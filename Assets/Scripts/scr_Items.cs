@@ -43,5 +43,18 @@ public class scr_Items
 
         }
     }
+    public Mesh GetMesh()
+    {
+        switch(itemType)
+        {
+            default:
+            case ItemType.Chair:            return scr_itemAssets.Instance.chairMesh;
+            case ItemType.Painting:         return scr_itemAssets.Instance.paintingMesh;
+            case ItemType.TrophyStand:      return scr_itemAssets.Instance.trophyStandMesh;
+            case ItemType.Trophy:           return scr_itemAssets.Instance.trophyMesh;
+            case ItemType.KelpDollars:      return scr_itemAssets.Instance.kelpDollarsMesh;
+
+        }
+    }
 
 }

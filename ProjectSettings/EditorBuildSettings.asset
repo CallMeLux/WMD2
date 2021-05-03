@@ -6,6 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/S_ArtAssets.unity
-    guid: 649a557ebb567d34aa473d4c026bc157
+    path: Assets/Scenes/S_MainMenu.unity
+    guid: fecb5c69b6da951439ff78ef1a85eb98
+  - enabled: 1
+    path: Assets/Scenes/S_HubWorld.unity
+    guid: 63f131721f7418b47bdcc9b7cb2f2896
+  - enabled: 1
+    path: Assets/Scenes/S_InflatablePants.unity
+    guid: ce7b5e42d4e62964986cf2fe88f44a25
+  - enabled: 1
+    path: Assets/Scenes/S_BlobFishing.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 1
+    path: Assets/Scenes/S_WMD.unity
+    guid: 33899d9d06d0ecf4a8a0f45cf82a748c
+  - enabled: 1
+    path: Assets/Scenes/S_Win.unity
+    guid: 4f8a66013be5faa40a94ba1e1387e118
   m_configObjects: {}

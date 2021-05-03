@@ -28,4 +28,10 @@ public GameObject kelpDollarsObject;
  public GameObject trophyPrefab;
  public GameObject trophyStandPrefab;
 
+ public Mesh kelpDollarsMesh;
+public Mesh  chairMesh;
+public Mesh paintingMesh;
+public Mesh trophyMesh;
+public Mesh trophyStandMesh;
+
 }

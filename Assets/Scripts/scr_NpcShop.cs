@@ -14,9 +14,24 @@ public static scr_NpcShop SpawnItemWorld (Vector3 position,scr_Items items)
     return itemWorld;
 }
     private scr_Items items;
+    private Mesh Mesh;
+
+    private void Awake()
+    {
+        Mesh = GetComponent<MeshFilter>().mesh;
+    }
     public void SetItem(scr_Items item)
     {
         this.items = item;
+        Mesh = item.GetMesh();
         //meshfilter.mesh = item.GetObject();
+    }
+    public scr_Items GetItems()
+    {
+        return items;
+    }
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
     }
 }

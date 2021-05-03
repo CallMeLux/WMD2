@@ -1,119 +1,123 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class scr_BuildSystem : MonoBehaviour
 {
     [SerializeField]
+    GameObject cameraMover;
+    [SerializeField]
     GameObject ItemListt;
     [SerializeField]
     Transform CamChild;
 
     [SerializeField]
-    //Transform [] FloorBuild;
     GameObject FloorBuild;
-    //[SerializeField]
-    //int transformPoints;
-
     [SerializeField]
-    //Transform [] FloorPrefab;
     GameObject FloorPrefab;
-    //[SerializeField]
-    //int prefabPoints;
-
+    [SerializeField]
+    public bool canBuild;
+    public bool canBuildCamera;
     public bool insidehouse;
+    [SerializeField]
+    GameObject destination;
+    [SerializeField]
+    LayerMask floorMask;
+    [SerializeField]
+    LayerMask wallMask;
     RaycastHit Hit;
-    // Start is called before the first frame update
+    Renderer rend;
+    
     void Start()
     {
         insidehouse = false;
-        //FloorBuild = FloorBuild[transformPoints];
-        //FloorPrefab = FloorPrefab[transformPoints];
+        canBuild = true;
+        canBuildCamera = false;
+        rend = FloorBuild.GetComponent<Renderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        FloorBuild.transform.position = destination.transform.position;
+        FloorBuild.transform.rotation = destination.transform.rotation;
         //scr_itemAssets playerHousingitemList = GameObject.Find(ItemAssets).GetComponent<scr_itemAssets>();
-
-        if (insidehouse == true)
+        
+        if (insidehouse && canBuildCamera)
         {
-        if(Physics.Raycast(CamChild.position,CamChild.forward,out Hit, 6f))
-        {
-            FloorBuild.transform.position = new Vector3(Mathf.RoundToInt(Hit.point.x) != 0 ? Mathf.RoundToInt(Hit.point.x/3.2f) * 3.2f : 3,
-            Mathf.RoundToInt(Hit.point.y)!= 0 ? Mathf.RoundToInt(Hit.point.y/3.2f) * 3.2f : 0 + FloorBuild.transform.localScale.y,
-            Mathf.RoundToInt(Hit.point.z)!= 0 ? Mathf.RoundToInt(Hit.point.z/3.2f) * 3.2f : 3);
-
-            FloorBuild.transform.eulerAngles = new Vector3(0,Mathf.RoundToInt(transform.eulerAngles.y) !=0? Mathf.RoundToInt (transform.eulerAngles.y / 90f) * 90 : 0, 0);
-
-            if(Input.GetMouseButtonDown(0))
+            RaycastFloor();
+            if (Input.GetKeyDown(KeyCode.R))
                 {
-                Instantiate(FloorPrefab, FloorBuild.transform.position, FloorBuild.transform.rotation);
+                Debug.Log("you pressed R: " + canBuildCamera);
+                canBuildCamera = false;
+                cameraMover.transform.localPosition = new Vector3 (0f,2.2f,-1.96f);
+                destination.SetActive(false);
                 }
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+        }
+        else if (insidehouse && !canBuildCamera) 
+            {
+            HouseStop();
+            if (Input.GetKeyDown(KeyCode.R))
                 {
-                FloorBuild = ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject;
-                FloorPrefab = ItemListt.GetComponent<scr_itemAssets>().kelpDollarsPrefab;
-                ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(true);
-                ItemListt.GetComponent<scr_itemAssets>().chairObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().paintingObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyStandObject.SetActive(false);
-                Debug.Log("working");
+                    Debug.Log("you pressed R: " +canBuildCamera);
+                    canBuildCamera = true;
+                    cameraMover.transform.localPosition = new Vector3 (0f,1f,1f);
+                    destination.SetActive(true);
+                    //HouseStop();
                 }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
+            }
+    }
+
+    void RaycastFloor()
+    {
+        if(Input.GetMouseButtonDown(0) && canBuild)
+            {
+            Instantiate(FloorPrefab, FloorBuild.transform.position, FloorBuild.transform.rotation);
+            }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+            FloorBuild = ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject;
+            FloorPrefab = ItemListt.GetComponent<scr_itemAssets>().kelpDollarsPrefab;
+            HouseStop();
+            ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(true);
+            Debug.Log("working");
+            }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
                 FloorBuild = ItemListt.GetComponent<scr_itemAssets>().chairObject;
                 FloorPrefab = ItemListt.GetComponent<scr_itemAssets>().chairPrefab;
+                HouseStop();
                 ItemListt.GetComponent<scr_itemAssets>().chairObject.SetActive(true);
-                ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().paintingObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyStandObject.SetActive(false);
-                Debug.Log("working");
+                //Debug.Log("working");
                 }
             if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                 FloorBuild = ItemListt.GetComponent<scr_itemAssets>().paintingObject;
                 FloorPrefab = ItemListt.GetComponent<scr_itemAssets>().paintingPrefab;
+                HouseStop();
                 ItemListt.GetComponent<scr_itemAssets>().paintingObject.SetActive(true);
-                ItemListt.GetComponent<scr_itemAssets>().chairObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyStandObject.SetActive(false);
-                Debug.Log("working");
+                //Debug.Log("working");
                 }
             if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
                 FloorBuild = ItemListt.GetComponent<scr_itemAssets>().trophyObject;
                 FloorPrefab = ItemListt.GetComponent<scr_itemAssets>().trophyPrefab;
+                HouseStop();
                 ItemListt.GetComponent<scr_itemAssets>().trophyObject.SetActive(true);
-                ItemListt.GetComponent<scr_itemAssets>().chairObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().paintingObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyStandObject.SetActive(false);
-                Debug.Log("working");
+                //Debug.Log("working");
                 }
             if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
                 FloorBuild = ItemListt.GetComponent<scr_itemAssets>().trophyStandObject;
                 FloorPrefab = ItemListt.GetComponent<scr_itemAssets>().trophyStandPrefab;
+                HouseStop();
                 ItemListt.GetComponent<scr_itemAssets>().trophyStandObject.SetActive(true);
-                ItemListt.GetComponent<scr_itemAssets>().chairObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().paintingObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().trophyObject.SetActive(false);
-                ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(false);
-                Debug.Log("working");
+                //Debug.Log("working");
                 }
-        }
-        }
-        else
-        {
-            HouseBuilderOff();
-        }
     }
-
-    void HouseBuilderOff ()
+    //void RaycastWall() {}
+    void HouseStop()
     {
                 ItemListt.GetComponent<scr_itemAssets>().trophyStandObject.SetActive(false);
                 ItemListt.GetComponent<scr_itemAssets>().chairObject.SetActive(false);
@@ -121,5 +125,5 @@ public class scr_BuildSystem : MonoBehaviour
                 ItemListt.GetComponent<scr_itemAssets>().trophyObject.SetActive(false);
                 ItemListt.GetComponent<scr_itemAssets>().kelpDollarsObject.SetActive(false);
     }
-
 }
+

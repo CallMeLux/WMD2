@@ -8,6 +8,16 @@ TagManager:
   - CatchPlane
   - House
   - Builder
+  - BlobFishRunAway
+  - HouseObjects
+  - HouseFloor
+  - HouseWall
+  - Pants
+  - Pants2
+  - Rings
+  - Cup
+  - Chase
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -18,15 +28,15 @@ TagManager:
   - 
   - 
   - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - HouseFloor
+  - HouseWall
+  - HouseObjects
+  - Player
+  - Sid
+  - Marlon
+  - Opal
+  - MrGrabs
+  - Npc
   - 
   - 
   - 
